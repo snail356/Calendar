@@ -1,27 +1,30 @@
-import * as Styles from '../styles'
 import getWeeksInMonth from '../utils'
-import React, { useState, useEffect } from 'react'
+import * as Styles from '../styles'
+import { AppStore } from '../Calendar'
+import moment from 'moment'
+import React, { useReducer, createContext, useContext } from 'react'
 
-function DateContent() {
-  let weekContentList = getWeeksInMonth()
+export default function DateContent() {
+  const { timeReducer } = useContext(AppStore)
+  const date = timeReducer[0]
+  const mmt = new moment(date)
+
+  let weekContentList = getWeeksInMonth(mmt)
   let result = []
   return (
     <div className="DateContainer" style={Styles.DateContainer}>
       {weekContentList.map((week, wIdx) => {
         let aWeek = []
-        week.map((day, dIdx) =>
-          aWeek.push(
-            <div
-              className="dateContent-day d-flex flex-cloumn"
-              style={Styles.dayStyle}
-              key={`${day}-${dIdx}`}
-            >
-              {day === 0 ? '' : day}
-              {/* <span>123</span> */}
-            </div>
-          )
-        )
-        result.push(
+        aWeek = week.map((day, dIdx) => (
+          <span
+            className="dateContent-day"
+            style={Styles.dayStyle}
+            key={`${day}-${dIdx}`}
+          >
+            {day === 0 ? '' : day}
+          </span>
+        ))
+        return (
           <div
             className="aweek"
             style={Styles.aWeekStyle}
@@ -35,5 +38,3 @@ function DateContent() {
     </div>
   )
 }
-
-export default DateContent
