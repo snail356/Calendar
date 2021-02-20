@@ -1,29 +1,32 @@
 // Calendar.js
-import React from 'react'
-import getWeeksInMonth from './utils'
-import moment from 'moment'
-import Header from './components/Header'
-import WeekDay from './components/WeekDay'
-import DateContent from './components/DateContent'
+import React, {useReducer, createContext} from "react";
+import moment from "moment";
+import * as Styles from "./styles";
+import reducers from "./reducers"
 
-// 引入樣式
-import * as Styles from './styles'
+// components
+import Header from "./components/Header";
+import WeekDay from "./components/WeekDay";
+import DateContent from "./components/DateContent";
 
-function Calendar() {
-  let result = getWeeksInMonth()
-  console.log('result:', result)
+// context store
+export const AppStore = createContext();
+
+// Calendar component
+export default function Calendar() {
+  const mmt = new moment();
+  const timeReducer = useReducer(reducers, mmt.format("YYYY-MM-DD"));
+
   return (
-    <>
+    <AppStore.Provider value={{timeReducer:timeReducer}}>
       <div>
-        <h1>{'Calendar Demo'}</h1>
+        <h1>{"Calendar Demo"}</h1>
         <div className="calendar-container" style={Styles.calendarContainer}>
           <Header />
           <WeekDay />
           <DateContent />
         </div>
       </div>
-    </>
-  )
+    </AppStore.Provider>
+  );
 }
-
-export default Calendar
