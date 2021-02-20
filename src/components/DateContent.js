@@ -1,5 +1,6 @@
 import * as Styles from '../styles'
 import getWeeksInMonth from '../utils'
+import React, { useState, useEffect } from 'react'
 
 function DateContent() {
   let weekContentList = getWeeksInMonth()
@@ -10,13 +11,14 @@ function DateContent() {
         let aWeek = []
         week.map((day, dIdx) =>
           aWeek.push(
-            <span
-              className="dateContent-day"
+            <div
+              className="dateContent-day d-flex flex-cloumn"
               style={Styles.dayStyle}
               key={`${day}-${dIdx}`}
             >
               {day === 0 ? '' : day}
-            </span>
+              {/* <span>123</span> */}
+            </div>
           )
         )
         result.push(
